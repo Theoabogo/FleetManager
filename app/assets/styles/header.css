@@ -1,0 +1,11 @@
+.hero-header {
+    background-image: url('/image/header.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 400px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
