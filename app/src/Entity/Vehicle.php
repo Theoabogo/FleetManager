@@ -9,6 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: VehicleRepository::class)]
 class Vehicle
 {
+    const STATUS_FREE = 'Disponible';
+    const STATUS_MAINTENANCE = 'En maintenance';
+    const STATUS_OUT_OF_SERVICE = 'Hors service';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

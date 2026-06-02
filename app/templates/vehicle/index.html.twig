@@ -3,6 +3,37 @@
 {% block title %}Tableau de bord{% endblock %}
 
 {% block body %}
+<h1 class="dashboard-title">
+    FleetManager - Tableau de bord
+</h1>
+<div class="dashboard">
 
+    <div class="card">
+        <h3>Total</h3>
+        <p>{{ totalVehicles }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Disponibles</h3>
+        <p>{{ available }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Chauffeurs</h3>
+        <p>{{ totalDrivers }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Maintenance</h3>
+        <p>{{ maintenance }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Hors service</h3>
+        <p>{{ outOfService }}</p>
+    </div>
+
+</div>
 
 {% endblock %}
+
