@@ -42,6 +42,9 @@ class Vehicle
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $inServiceDate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    private ?Driver $driver = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -139,6 +142,18 @@ class Vehicle
     public function setInServiceDate(\DateTime $inServiceDate): static
     {
         $this->inServiceDate = $inServiceDate;
+
+        return $this;
+    }
+
+    public function getDriver(): ?Driver
+    {
+        return $this->driver;
+    }
+
+    public function setDriver(?Driver $driver): static
+    {
+        $this->driver = $driver;
 
         return $this;
     }

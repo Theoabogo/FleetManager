@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des vehicules{% endblock %}
+
+{% block body %}
+<h1 class="dashboard-title">
+    FleetManager - Liste des vehicules
+</h1>
+<p class="P">
+    <button type="button" >Ajouter un véhicule</button>
+</p>
+
+<div class="liste-vehicles">
+
+    <div class="card">
+        <h3>Total</h3>
+        <p>{{ totalVehicles }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Disponibles</h3>
+        <p>{{ available }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Emprunts</h3>
+        <p>{{ totalEmprunts }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Maintenance</h3>
+        <p>{{ maintenance }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Hors service</h3>
+        <p>{{ outOfService }}</p>
+    </div>
+
+</div>
+ 
+
+<div class="table-liste">
+    <table class="table table-vehicule">
+        <thead>
+            <tr>
+                <th>Marques</th>
+                <th>Modèles</th>
+                <th>Immatriculations</th>
+                <th>Statuts</th>
+                <th>Chauffeurs</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehicle in vehicles %}
+                <tr>
+    <td>{{ vehicle.brand }}</td>
+    <td>{{ vehicle.model }}</td>
+    <td>{{ vehicle.plateNumber }}</td>
+    <td>{{ vehicle.status }}</td>
+    <td>
+        {{ vehicle.driver ? vehicle.driver.firstname ~ ' ' ~ vehicle.driver.lastname : 'Aucun chauffeur' }}
+    </td>
+</tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+   
+
+{% endblock %}
+
