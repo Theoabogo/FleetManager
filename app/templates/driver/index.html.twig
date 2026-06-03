@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des chauffeurs{% endblock %}
+
+{% block body %}
+
+
+<div class="example-wrapper">
+    <h1 class="h1">Liste des chauffeurs</h1>
+    <p class="P">
+    <button type="button" >Ajouter un véhicule</button>
+</p>
+
+<div class="table-liste">
+    <table class="table table-vehicule">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for driver in drivers %}
+                <tr>
+    <td>{{ driver.firstname }}</td>
+    <td>{{ driver.lastname }}</td>
+    <td>{{ driver.email }}</td>
+    <td>{{ driver.phone }}</td>
+    <td>
+        {{ driver.firstname ~ ' ' ~ driver.lastname }}
+    </td>
+</tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
