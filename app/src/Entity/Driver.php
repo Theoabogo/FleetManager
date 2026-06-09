@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: DriverRepository::class)]
 class Driver
 {
@@ -33,9 +34,16 @@ class Driver
     #[ORM\OneToMany(targetEntity: Vehicle::class, mappedBy: 'driver')]
     private Collection $vehicles;
 
+    /**
+     * @var Collection<int, Assignment>
+     */
+    #[ORM\OneToMany(targetEntity: Assignment::class, mappedBy: 'driver')]
+    private Collection $assignments;
+
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
+        $this->assignments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,6 +123,37 @@ class Driver
             // set the owning side to null (unless already changed)
             if ($vehicle->getDriver() === $this) {
                 $vehicle->setDriver(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Assignment>
+     */
+    public function getAssignments(): Collection
+    {
+        return $this->assignments;
+    }
+
+    public function addAssignment(Assignment $assignment): static
+    {
+        if (!$this->assignments->contains($assignment)) {
+            $this->assignments->add($assignment);
+           
+            $assignment->setDriver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssignment(Assignment $assignment): static
+    {
+        if ($this->assignments->removeElement($assignment)) {
+            // set the owning side to null (unless already changed)
+            if ($assignment->getDriver() === $this) {
+                $assignment->setDriver(null);
             }
         }
 

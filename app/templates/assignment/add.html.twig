@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Affectations{% endblock %}
+
+{% block body %}
+
+<div class="card">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card-header">
+                <h3>Assigner un véhicule à un conducteur</h3>
+            </div>
+
+            <div class="card-body">
+
+                {{ form_start(formView) }}
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.driver, 'Conducteur') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.driver) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.vehicle, 'Véhicule') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.vehicle) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.assignedAt, 'Date d\'affectation') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.assignedAt) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.returnedAt, 'Date de retour') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.returnedAt) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.comment, 'Commentaire') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.comment) }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">
+                        Enregistrement
+                    </button>
+                </div>
+
+                {{ form_end(formView) }}
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

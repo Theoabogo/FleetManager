@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des vehicules{% endblock %}
+
+{% block body %}
+<h1 class="dashboard-title">
+    FleetManager - Liste des affectations
+</h1>
+<p class="P">
+    <a href="{{ path('app_assignment_add') }}" class="btn btn-primary">Ajouter une affectation</a>
+</p>
+
+
+<div class="table-liste">
+    <table class="table table-vehicule">
+        <thead>
+            <tr>
+                <th>Conducteur</th>
+                <th>Vehicule</th>
+                <th>Date d'affectation</th>
+                <th>Date de retour</th>
+                <th>commentaire</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in assignments %}
+                <tr>
+    <td>{{ assignment.driver.firstname ~ ' ' ~ assignment.driver.lastname }}</td>
+    <td>{{ assignment.vehicle.brand ~ ' ' ~ assignment.vehicle.model }}</td>
+    <td>{{ assignment.assignedAt|date('d/m/Y') }}</td>
+    <td>
+        {% if assignment.returnedAt %}
+            {{ assignment.returnedAt|date('d/m/Y') }}
+
+        {% endif %}
+      
+    <td>{{ assignment.comment }}</td>
+    </td>
+</tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+   
+
+{% endblock %}

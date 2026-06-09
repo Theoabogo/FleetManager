@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\Assignment;
+use App\Form\AssignmentType;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+
+final class AssignmentController extends AbstractController
+{
+    #[Route('/assignment/add', name: 'app_assignment_add')]
+    public function add( Request $request, EntityManagerInterface $entityManager): Response
+    {
+         $assignment = new Assignment();
+             $form = $this->createForm(AssignmentType::class, $assignment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+           
+            $entityManager->persist($assignment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_assignment_list_assign');
+        }
+
+        return $this->render('assignment/add.html.twig', [
+            'formView' => $form->createView(),
+        ]);
+    }
+    #[Route('/assignment/list_assign', name: 'app_assignment_list_assign')]
+    public function index(EntityManagerInterface $entityManager): Response
+    {
+        $assignments = $entityManager->getRepository(Assignment::class)->findAll();
+
+        return $this->render('assignment/list_assign.html.twig', [
+            'assignments' => $assignments,
+        ]);
+    }
+}

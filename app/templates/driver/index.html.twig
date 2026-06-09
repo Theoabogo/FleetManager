@@ -8,7 +8,7 @@
 <div class="example-wrapper">
     <h1 class="h1">Liste des chauffeurs</h1>
     <p class="P">
-    <button type="button" >Ajouter un véhicule</button>
+    <button type="button" class="btn btn-primary">Ajouter un chauffeur</button>
 </p>
 
 <div class="table-liste">
@@ -28,9 +28,7 @@
     <td>{{ driver.lastname }}</td>
     <td>{{ driver.email }}</td>
     <td>{{ driver.phone }}</td>
-    <td>
-        {{ driver.firstname ~ ' ' ~ driver.lastname }}
-    </td>
+    
 </tr>
             {% endfor %}
         </tbody>

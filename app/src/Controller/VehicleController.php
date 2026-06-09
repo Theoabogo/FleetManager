@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+
+
+
 final class VehicleController extends AbstractController
 {
     #[Route('/', name: 'app_dashboard')]
@@ -47,6 +50,15 @@ $outOfService = $vehicleRepository->count(['status' => Vehicle::STATUS_OUT_OF_SE
             'available' => $available,
             'maintenance' => $maintenance,
             'outOfService' => $outOfService,
+        ]);
+    }
+
+    #[Route('/vehicle/add_vehicle', name: 'app_vehicle_add_vehicle')]
+    public function add(): Response
+    {
+        $form = $this->createForm(VehicleType::class, $vehicle);
+        return $this->render('vehicle/add_vehicle.html.twig', [
+            'formView' => $form->createView(),
         ]);
     }
 }
