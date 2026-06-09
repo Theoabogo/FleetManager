@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un vehicule{% endblock %}
+
+{% block body %}
+
+<div class="card">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card-header">
+                <h3>Ajouter un véhicule</h3>
+            </div>
+
+            <div class="card-body">
+
+                {{ form_start(formView) }}
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.brand, 'Marque') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.brand) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.model, 'Modèle') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.model) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.plateNumber, 'Numéro d\'immatriculation') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.plateNumber) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.status, 'Statut') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.status) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.color, 'Couleur') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.color) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.fuel, 'Carburant') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.fuel) }}
+                    </div>
+                </div>
+
+                 <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.mileage, 'Kilométrage') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.mileage) }}
+                    </div>
+                </div>
+
+                 <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.inServiceDate, 'Date de mise en service') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.inServiceDate) }}
+                    </div>
+                </div>
+
+                 <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        {{ form_label(formView.driver, 'Conducteur') }}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(formView.driver) }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">
+                        Enregistrer
+                    </button>
+                </div>
+
+                {{ form_end(formView) }}
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

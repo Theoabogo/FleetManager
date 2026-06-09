@@ -8,6 +8,11 @@ use App\Repository\DriverRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Form\VehicleType;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+
+
 
 
 
@@ -54,9 +59,19 @@ $outOfService = $vehicleRepository->count(['status' => Vehicle::STATUS_OUT_OF_SE
     }
 
     #[Route('/vehicle/add_vehicle', name: 'app_vehicle_add_vehicle')]
-    public function add(): Response
+    public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $vehicle = new Vehicle();
         $form = $this->createForm(VehicleType::class, $vehicle);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($vehicle);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_List_Vehicles');
+        }
+
         return $this->render('vehicle/add_vehicle.html.twig', [
             'formView' => $form->createView(),
         ]);
