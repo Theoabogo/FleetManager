@@ -40,11 +40,7 @@ class Driver
     #[ORM\OneToMany(targetEntity: Assignment::class, mappedBy: 'driver')]
     private Collection $assignments;
 
-    public function __construct()
-    {
-        $this->vehicles = new ArrayCollection();
-        $this->assignments = new ArrayCollection();
-    }
+    
 
     public function getId(): ?int
     {
@@ -102,36 +98,7 @@ class Driver
     /**
      * @return Collection<int, Vehicle>
      */
-    public function getVehicles(): Collection
-    {
-        return $this->vehicles;
-    }
-
-    public function addVehicle(Vehicle $vehicle): static
-    {
-        if (!$this->vehicles->contains($vehicle)) {
-            $this->vehicles->add($vehicle);
-            $vehicle->setDriver($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVehicle(Vehicle $vehicle): static
-    {
-        if ($this->vehicles->removeElement($vehicle)) {
-            // set the owning side to null (unless already changed)
-            if ($vehicle->getDriver() === $this) {
-                $vehicle->setDriver(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Assignment>
-     */
+   
     public function getAssignments(): Collection
     {
         return $this->assignments;

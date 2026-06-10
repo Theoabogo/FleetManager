@@ -28,6 +28,7 @@ $totalDrivers = $driverRepository->count([]);
 $available = $vehicleRepository->count(['status' => Vehicle::STATUS_FREE]);
 $maintenance = $vehicleRepository->count(['status' => Vehicle::STATUS_MAINTENANCE]);
 $outOfService = $vehicleRepository->count(['status' => Vehicle::STATUS_OUT_OF_SERVICE]);
+$assigned = $vehicleRepository->count(['status' => Vehicle::STATUS_ASSIGNED]);
 
         return $this->render('vehicle/index.html.twig', [
             'totalVehicles' => $totalVehicles,
@@ -35,6 +36,7 @@ $outOfService = $vehicleRepository->count(['status' => Vehicle::STATUS_OUT_OF_SE
             'available' => $available,
             'maintenance' => $maintenance,
             'outOfService' => $outOfService,
+            'totalEmprunts' => $assigned,
         ]);
     }
     #[Route('/vehicles', name: 'app_List_Vehicles')]
@@ -47,11 +49,11 @@ $totalDrivers = $driverRepository->count([]);
 $available = $vehicleRepository->count(['status' => Vehicle::STATUS_FREE]);
 $maintenance = $vehicleRepository->count(['status' => Vehicle::STATUS_MAINTENANCE]);
 $outOfService = $vehicleRepository->count(['status' => Vehicle::STATUS_OUT_OF_SERVICE]);
-
-        return $this->render('vehicle/list.html.twig', [
+$assigned = $vehicleRepository->count(['status' => Vehicle::STATUS_ASSIGNED]);
+    return $this->render('vehicle/list.html.twig', [
             'vehicles' => $vehicles,
-                        'totalVehicles' => $totalVehicles,
-            'totalEmprunts' => $totalDrivers,
+            'totalVehicles' => $totalVehicles,
+            'totalEmprunts' => $assigned,
             'available' => $available,
             'maintenance' => $maintenance,
             'outOfService' => $outOfService,
@@ -66,6 +68,7 @@ $outOfService = $vehicleRepository->count(['status' => Vehicle::STATUS_OUT_OF_SE
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $vehicle->setStatus(Vehicle::STATUS_FREE);
             $entityManager->persist($vehicle);
             $entityManager->flush();
 

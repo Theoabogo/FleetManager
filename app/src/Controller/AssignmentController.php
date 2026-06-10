@@ -9,6 +9,7 @@ use App\Entity\Assignment;
 use App\Form\AssignmentType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Vehicle;
 
 final class AssignmentController extends AbstractController
 {
@@ -20,6 +21,8 @@ final class AssignmentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $vehicle = $assignment->getVehicle();
+    $vehicle->setStatus(Vehicle::STATUS_ASSIGNED);
            
             $entityManager->persist($assignment);
             $entityManager->flush();

@@ -48,7 +48,7 @@
                 <th>Modèles</th>
                 <th>Immatriculations</th>
                 <th>Statuts</th>
-                <th>Chauffeurs</th>
+                
 
             </tr>
         </thead>
@@ -59,9 +59,7 @@
     <td>{{ vehicle.model }}</td>
     <td>{{ vehicle.plateNumber }}</td>
     <td>{{ vehicle.status }}</td>
-    <td>
-        {{ vehicle.driver ? vehicle.driver.firstname ~ ' ' ~ vehicle.driver.lastname : 'Aucun chauffeur' }}
-    </td>
+   
 </tr>
             {% endfor %}
         </tbody>

@@ -14,6 +14,8 @@ class Vehicle
     const STATUS_FREE = 'Disponible';
     const STATUS_MAINTENANCE = 'En maintenance';
     const STATUS_OUT_OF_SERVICE = 'Hors service';
+    const STATUS_ASSIGNED = 'En mission';
+
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -43,9 +45,6 @@ class Vehicle
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $inServiceDate = null;
-
-    #[ORM\ManyToOne(inversedBy: 'vehicles')]
-    private ?Driver $driver = null;
 
     /**
      * @var Collection<int, Assignment>
@@ -155,18 +154,6 @@ class Vehicle
     public function setInServiceDate(\DateTime $inServiceDate): static
     {
         $this->inServiceDate = $inServiceDate;
-
-        return $this;
-    }
-
-    public function getDriver(): ?Driver
-    {
-        return $this->driver;
-    }
-
-    public function setDriver(?Driver $driver): static
-    {
-        $this->driver = $driver;
 
         return $this;
     }
