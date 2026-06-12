@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Détail du véhicule
+{% endblock %}
+
+{% block body %}
+    <h1 class="dashboard-title">
+        FleetManager - Détail du véhicule
+    </h1>
+
+    <p class="P">
+        <a href="{{ path('app_List_Vehicles') }}" class="btn btn-primary">
+            Retour à la liste
+        </a>
+    </p>
+
+    <div class="card">
+        <h3>Information du véhicule</h3>
+
+        <table class="table">
+            <tr>
+                <th>Marque</th>
+                <td>{{ vehicle.brand }}</td>
+            </tr>
+            <tr>
+                <th>Modèle</th>
+                <td>{{ vehicle.model }}</td>
+            </tr>
+            <tr>
+                <th>Immatriculation</th>
+                <td>{{ vehicle.plateNumber }}</td>
+            </tr>
+            <tr>
+                <th>Couleur</th>
+                <td>{{ vehicle.color }}</td>
+            </tr>
+            <tr>
+                <th>Carburant</th>
+                <td>{{ vehicle.fuel }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ vehicle.status }}</td>
+            </tr>
+        </table>
+
+        <div class="mb-3 d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-primary">
+                Modifier
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+                Supprimer
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+                Terminer l'affectation
+            </button>
+        </div>
+    </div>
+
+    <div class="card mt-5">
+        <h3>Information du chauffeur</h3>
+
+        <table class="table">
+            {% if vehicle.assignments|last %}
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ vehicle.assignments|last.driver.lastName }}</td>
+                </tr>
+                <tr>
+                    <th>Prénom</th>
+                    <td>{{ vehicle.assignments|last.driver.firstName }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ vehicle.assignments|last.driver.email }}</td>
+                </tr>
+                <tr>
+                    <th>Téléphone</th>
+                    <td>{{ vehicle.assignments|last.driver.phone }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">Aucun chauffeur affecté</td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+{% endblock %}

@@ -36,7 +36,7 @@ $assigned = $vehicleRepository->count(['status' => Vehicle::STATUS_ASSIGNED]);
             'available' => $available,
             'maintenance' => $maintenance,
             'outOfService' => $outOfService,
-            'totalEmprunts' => $assigned,
+            'totalAssigned' => $assigned,
         ]);
     }
     #[Route('/vehicles', name: 'app_List_Vehicles')]
@@ -79,4 +79,12 @@ $assigned = $vehicleRepository->count(['status' => Vehicle::STATUS_ASSIGNED]);
             'formView' => $form->createView(),
         ]);
     }
+
+    #[Route('/vehicle/{id}', name: 'app_vehicle_show')]
+    public function show(Vehicle $vehicle): Response
+    {
+        return $this->render('vehicle/show.html.twig', [
+            'vehicle' => $vehicle,
+        ]);
+}
 }

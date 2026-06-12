@@ -48,6 +48,7 @@
                 <th>Modèles</th>
                 <th>Immatriculations</th>
                 <th>Statuts</th>
+                <th>Actions</th>
                 
 
             </tr>
@@ -59,7 +60,10 @@
     <td>{{ vehicle.model }}</td>
     <td>{{ vehicle.plateNumber }}</td>
     <td>{{ vehicle.status }}</td>
-   
+    <td>
+        <a href="{{ path('app_vehicle_show', {'id': vehicle.id}) }}" class="btn btn-sm btn-outline-primary">Detail vehicule</a>
+        
+    </td>
 </tr>
             {% endfor %}
         </tbody>

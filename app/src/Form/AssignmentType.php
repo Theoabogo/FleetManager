@@ -20,19 +20,25 @@ class AssignmentType extends AbstractType
                 'label' => 'Véhicule',
                 'class' => Vehicle::class,
                 'choice_label' => function(Vehicle $vehicle) {
-                    return $vehicle->getModel() . ' - ' . $vehicle->getColor() . ' - ' . $vehicle->getPlateNumber();
+                    return $vehicle->getModel() . ' - ' . $vehicle->getColor() . ' - ' . $vehicle->getPlateNumber() .  ' - ' . '[' . $vehicle->getStatus() . ']';
                 },
+                'placeholder' => 'Choisir un véhicule'
             ])
              ->add('driver', EntityType::class, [
                 'label' => 'Conducteur',
                 'class' => Driver::class,
-                'choice_label' => 'lastName',
-                
+               'choice_label' => function (Driver $driver) {
+        return $driver->getLastName() . ' ' . $driver->getFirstName();
+    },
+                'placeholder' => 'Choisir un conducteur'
             ])
 
             ->add('assignedAt', null, ['label' =>'Date d\'affectation'])
-            ->add('returnedAt', null, ['label' =>'Date de retour'])
-            ->add('comment', textareaType::class, ['label' =>'Commentaire'])
+           
+            ->add('comment', textareaType::class, [
+                'label' =>'Commentaire',
+                'required' => false,
+                ])
           
            
         ;
