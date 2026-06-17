@@ -187,4 +187,37 @@ class Vehicle
 
         return $this;
     }
+
+    public function isInMission(): bool
+    {
+        foreach ($this->assignments as $assignment) {
+            if ($assignment->getReturnedAt() === null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+public function getActiveAssignment(): ?Assignment
+{
+    foreach ($this->assignments as $assignment) {
+        if ($assignment->getReturnedAt() === null) {
+            return $assignment;
+        }
+    }
+
+    return null;
+}
+
+    public function getAssignementStatus()
+    {
+        if ($this->getStatus() === self::STATUS_FREE) {
+            if ($this->isInMission()) return self::STATUS_ASSIGNED;
+
+        return self::STATUS_FREE;
+        }
+
+        return $this->getStatus();
+
+    }
 }

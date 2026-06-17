@@ -9,6 +9,7 @@
         FleetManager - Détail du véhicule
     </h1>
 
+
     <p class="P">
         <a href="{{ path('app_List_Vehicles') }}" class="btn btn-primary">
             Retour à la liste
@@ -41,51 +42,82 @@
             </tr>
             <tr>
                 <th>Statut</th>
-                <td>{{ vehicle.status }}</td>
+              <td>
+        {% if vehicle.status == constant('App\\Entity\\Vehicle::STATUS_OUT_OF_SERVICE') %}
+            Hors service
+        {% elseif vehicle.activeAssignment %}
+            En mission
+        {% else %}
+            Disponible
+        {% endif %}
+    </td>  
             </tr>
         </table>
 
         <div class="mb-3 d-flex justify-content-end gap-2">
-            <button type="submit" class="btn btn-primary">
+            <a
+                href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}"
+                class="btn btn-primary"
+            >
                 Modifier
-            </button>
+            </a>
 
-            <button type="submit" class="btn btn-primary">
-                Supprimer
-            </button>
+       {% if activeAssignment %}
 
-            <button type="submit" class="btn btn-primary">
-                Terminer l'affectation
-            </button>
+    <form method="post"
+          action="{{ path('app_assignment_return', {'id': activeAssignment.id}) }}"
+          onsubmit="return confirm('Terminer l\'affectation ?')"
+          style="display:inline">
+
+         <input type="hidden"
+               name="_token"
+               value="{{ csrf_token('return' ~ activeAssignment.id) }}">
+
+
+        <button type="submit" class="btn btn-primary">
+            Terminer l'affectation
+        </button>
+
+    </form>
+
+{% endif %}
+         
+        {% if vehicle.status != 'Hors service' %}
+         <a
+        href="{{ path('app_vehicle_out_of_service', {'id': vehicle.id}) }}"
+        class="btn btn-danger"
+        >
+        Mettre hors service
+        </a>
+       {% endif %}
+
         </div>
     </div>
 
+    
+{% if activeAssignment %}
     <div class="card mt-5">
         <h3>Information du chauffeur</h3>
 
         <table class="table">
-            {% if vehicle.assignments|last %}
-                <tr>
-                    <th>Nom</th>
-                    <td>{{ vehicle.assignments|last.driver.lastName }}</td>
-                </tr>
-                <tr>
-                    <th>Prénom</th>
-                    <td>{{ vehicle.assignments|last.driver.firstName }}</td>
-                </tr>
-                <tr>
-                    <th>Email</th>
-                    <td>{{ vehicle.assignments|last.driver.email }}</td>
-                </tr>
-                <tr>
-                    <th>Téléphone</th>
-                    <td>{{ vehicle.assignments|last.driver.phone }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="2">Aucun chauffeur affecté</td>
-                </tr>
-            {% endif %}
+            <tr>
+                <th>Nom</th>
+                <td>{{ activeAssignment.driver.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ activeAssignment.driver.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ activeAssignment.driver.email }}</td>
+            </tr>
+            <tr>
+                <th>Téléphone</th>
+                <td>{{ activeAssignment.driver.phone }}</td>
+            </tr>
         </table>
     </div>
+{% endif %}
+    
 {% endblock %}

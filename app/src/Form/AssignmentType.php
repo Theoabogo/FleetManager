@@ -33,7 +33,10 @@ class AssignmentType extends AbstractType
                 'placeholder' => 'Choisir un conducteur'
             ])
 
-            ->add('assignedAt', null, ['label' =>'Date d\'affectation'])
+            ->add('assignedAt', null, [
+                'label' =>'Date d\'affectation',
+                  'data' => new \DateTime(),
+                ])
            
             ->add('comment', textareaType::class, [
                 'label' =>'Commentaire',

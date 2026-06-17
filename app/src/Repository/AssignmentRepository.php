@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Assignment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Vehicle;
+
 
 /**
  * @extends ServiceEntityRepository<Assignment>
@@ -19,17 +21,17 @@ class AssignmentRepository extends ServiceEntityRepository
 //    /**
 //     * @return Assignment[] Returns an array of Assignment objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+//   public function findActiveByVehicle(Vehicle $vehicle): ?Assignment
+ //  {
+  //     return $this->createQueryBuilder('a')
+  //         ->andWhere('a.vehicle = :vehicle')
+   //        ->setParameter('vehicle', $vehicle)
+    //     ->orderBy('a.id', 'DESC')
+    //    ->setMaxResults(1)
+  //       ->getQuery()
+   //        ->getOneOrNullResult()
+   //   ;
+ // }
 
 //    public function findOneBySomeField($value): ?Assignment
 //    {

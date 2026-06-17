@@ -59,7 +59,9 @@
     <td>{{ vehicle.brand }}</td>
     <td>{{ vehicle.model }}</td>
     <td>{{ vehicle.plateNumber }}</td>
-    <td>{{ vehicle.status }}</td>
+  <td>
+    {{ vehicle.getAssignementStatus }}
+</td>
     <td>
         <a href="{{ path('app_vehicle_show', {'id': vehicle.id}) }}" class="btn btn-sm btn-outline-primary">Detail vehicule</a>
         
