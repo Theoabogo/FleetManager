@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Retour d'affectation{% endblock %}
+
+{% block body %}
+
+<h1 class="dashboard-title">
+    Terminer l'affectation
+</h1>
+
+<div class="card">
+
+    {{ form_start(formView) }}
+
+        {{ form_row(formView.returnedAt) }}
+
+        {{ form_row(formView.comment) }}
+
+        <button type="submit" class="btn btn-success">
+            Valider le retour
+        </button>
+
+    {{ form_end(formView) }}
+
+</div>
+
+{% endblock %}

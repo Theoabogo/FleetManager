@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Form\ReturnAssignmentType;
+
 
 
 
@@ -27,6 +29,14 @@ final class AssignmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $vehicle = $assignment->getVehicle();
+
+            if ($vehicle->getActiveAssignment()) {
+                $this->addFlash('danger', 'Ce véhicule est déjà en mission.');
+
+                return $this->redirectToRoute('app_assignment_add');
+            }
+
+            $vehicle->setStatus(Vehicle::STATUS_ASSIGNED);
 
             $entityManager->persist($assignment);
             $entityManager->flush();
@@ -50,21 +60,34 @@ final class AssignmentController extends AbstractController
             'assignments' => $assignments,
         ]);
     }
+#[Route('/assignment/{id}/return', name: 'app_assignment_return', methods: ['GET', 'POST'])]
+public function returnVehicle(
+    Assignment $assignment,
+    Request $request,
+    EntityManagerInterface $entityManager
+): Response {
 
-    #[Route('/assignment/{id}/return', name: 'app_assignment_return',  methods: ['POST'])]
-    public function returnVehicle(
-        Assignment $assignment,
-        EntityManagerInterface $entityManager, Request $request
-    ): Response {
-        if (!$this->isCsrfTokenValid('return'.$assignment->getId(), $request->request->get('_token'))) {
-        throw $this->createAccessDeniedException('Invalid CSRF token');
-    }
-        $assignment->setReturnedAt(new \DateTime());
+    $form = $this->createForm(ReturnAssignmentType::class, $assignment);
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        $vehicle = $assignment->getVehicle();
+        $vehicle->setStatus(Vehicle::STATUS_FREE);
 
         $entityManager->flush();
 
-       return $this->redirectToRoute('app_vehicle_show', [
-    'id' => $assignment->getvehicle()->getId(),
-]);
+        return $this->redirectToRoute('app_vehicle_show', [
+            'id' => $vehicle->getId(),
+        ]);
     }
+
+    return $this->render('assignment/return.html.twig', [
+        'formView' => $form->createView(),
+        'assignment' => $assignment,
+    ]);
+}
+
+   
 }

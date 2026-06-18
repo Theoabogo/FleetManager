@@ -44,13 +44,19 @@
                 <th>Statut</th>
               <td>
         {% if vehicle.status == constant('App\\Entity\\Vehicle::STATUS_OUT_OF_SERVICE') %}
-            Hors service
-        {% elseif vehicle.activeAssignment %}
-            En mission
-        {% else %}
-            Disponible
-        {% endif %}
+        Hors service
+
+    {% elseif vehicle.status == constant('App\\Entity\\Vehicle::STATUS_MAINTENANCE') %}
+        En maintenance
+
+    {% elseif vehicle.activeAssignment %}
+        En mission
+
+    {% else %}
+        Disponible
+    {% endif %}
     </td>  
+    
             </tr>
         </table>
 
@@ -64,31 +70,47 @@
 
        {% if activeAssignment %}
 
-    <form method="post"
-          action="{{ path('app_assignment_return', {'id': activeAssignment.id}) }}"
-          onsubmit="return confirm('Terminer l\'affectation ?')"
-          style="display:inline">
+    
 
-         <input type="hidden"
-               name="_token"
-               value="{{ csrf_token('return' ~ activeAssignment.id) }}">
+    <a
+        href="{{ path('app_assignment_return', {'id': activeAssignment.id}) }}"
+        class="btn btn-primary"
+    >
+        Terminer l'affectation
+    </a>
 
+{% endif %}
+{% if vehicle.status == constant('App\\Entity\\Vehicle::STATUS_FREE') and not activeAssignment %}
 
-        <button type="submit" class="btn btn-primary">
-            Terminer l'affectation
-        </button>
+<form method="post"
+      action="{{ path('app_vehicle_maintenance', {'id': vehicle.id}) }}"
+      onsubmit="return confirm('Mettre ce véhicule en maintenance ?')"
+      style="display:inline">
+      <input type="hidden"
+       name="_token"
+       value="{{ csrf_token('maintenance' ~ vehicle.id) }}">
 
-    </form>
+    <button class="btn btn-warning" type="submit">
+        Mettre en maintenance
+    </button>
+
+</form>
 
 {% endif %}
          
         {% if vehicle.status != 'Hors service' %}
-         <a
-        href="{{ path('app_vehicle_out_of_service', {'id': vehicle.id}) }}"
-        class="btn btn-danger"
-        >
-        Mettre hors service
-        </a>
+        <form method="post"
+              action="{{ path('app_vehicle_out_of_service', {'id': vehicle.id}) }}"
+              onsubmit="return confirm('Mettre ce véhicule hors service ?')"
+              style="display:inline">
+            <input type="hidden"
+                   name="_token"
+                   value="{{ csrf_token('out_of_service' ~ vehicle.id) }}">
+
+            <button class="btn btn-danger" type="submit">
+                Mettre hors service
+            </button>
+        </form>
        {% endif %}
 
         </div>

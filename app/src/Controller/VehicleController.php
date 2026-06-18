@@ -21,12 +21,14 @@ public function index(
     DriverRepository $driverRepository,
     EntityManagerInterface $entityManager
 ): Response {
+    
     $totalVehicles = $vehicleRepository->count([]);
     $totalDrivers = $driverRepository->count([]);
 
     $available = 0;
 
-    foreach ($vehicleRepository->findAll() as $vehicle) {
+   
+ foreach ($vehicleRepository->findAll() as $vehicle) {
         if (
             $vehicle->getStatus() === Vehicle::STATUS_FREE
             && !$vehicle->getActiveAssignment()
@@ -48,6 +50,7 @@ public function index(
         ->count([
             'returnedAt' => null,
         ]);
+        
 
     return $this->render('vehicle/index.html.twig', [
         'totalVehicles' => $totalVehicles,
@@ -165,11 +168,16 @@ public function list(
         ]);
     }
 
-    #[Route('/vehicle/{id}/out_of_service', name: 'app_vehicle_out_of_service')]
+    #[Route('/vehicle/{id}/out_of_service', name: 'app_vehicle_out_of_service', methods: ['POST'])]
     public function outOfService(
         Vehicle $vehicle,
+        Request $request,
         EntityManagerInterface $entityManager
     ): Response {
+        if (!$this->isCsrfTokenValid('out_of_service'.$vehicle->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException();
+        }
+
         if ($vehicle->getActiveAssignment()) {
             $this->addFlash(
                 'danger',
@@ -194,4 +202,27 @@ public function list(
             'id' => $vehicle->getId(),
         ]);
     }
+ #[Route('/vehicle/{id}/maintenance', name: 'app_vehicle_maintenance', methods: ['POST'])]
+public function underMaintenance(
+    Vehicle $vehicle,
+    EntityManagerInterface $entityManager,  Request $request, 
+): Response
+{
+    if ($vehicle->getActiveAssignment()) {
+        $this->addFlash('error', 'Impossible : véhicule en mission.');
+
+        return $this->redirectToRoute('app_vehicle_show', [
+            'id' => $vehicle->getId(),
+        ]);
+    }
+if (!$this->isCsrfTokenValid('maintenance'.$vehicle->getId(), $request->request->get('_token'))) {
+    throw $this->createAccessDeniedException();
+}
+    $vehicle->setStatus(Vehicle::STATUS_MAINTENANCE);
+    $entityManager->flush();
+
+    return $this->redirectToRoute('app_vehicle_show', [
+        'id' => $vehicle->getId(),
+    ]);
+}
 }
