@@ -19,6 +19,12 @@
     transform: scale(1.05);
 }
 
+.dashboard-card-link {
+    display: contents;
+    color: inherit;
+    text-decoration: none;
+}
+
 .card h3 {
     margin-bottom: 10px;
     font-size: 18px;

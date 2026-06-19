@@ -12,30 +12,41 @@
 
 <div class="liste-vehicles">
 
-    <div class="card">
-        <h3>Total</h3>
-        <p>{{ totalVehicles }}</p>
-    </div>
-
+    {% if filter != 'available' %}
+    <a href="{{ path('app_List_Vehicles', {'status': 'available'}) }}" class="dashboard-card-link">
     <div class="card">
         <h3>Disponibles</h3>
         <p>{{ available }}</p>
     </div>
+    </a>
+    {% endif %}
 
+    {% if filter != 'assigned' %}
+    <a href="{{ path('app_List_Vehicles', {'status': 'assigned'}) }}" class="dashboard-card-link">
     <div class="card">
         <h3>Emprunts</h3>
         <p>{{ totalEmprunts }}</p>
     </div>
+    </a>
+    {% endif %}
 
+    {% if filter != 'maintenance' %}
+    <a href="{{ path('app_List_Vehicles', {'status': 'maintenance'}) }}" class="dashboard-card-link">
     <div class="card">
         <h3>Maintenance</h3>
         <p>{{ maintenance }}</p>
     </div>
+    </a>
+    {% endif %}
 
+    {% if filter != 'out_of_service' %}
+    <a href="{{ path('app_List_Vehicles', {'status': 'out_of_service'}) }}" class="dashboard-card-link">
     <div class="card">
         <h3>Hors service</h3>
         <p>{{ outOfService }}</p>
     </div>
+    </a>
+    {% endif %}
 
 </div>
  

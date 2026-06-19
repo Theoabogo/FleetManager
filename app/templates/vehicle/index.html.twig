@@ -8,34 +8,47 @@
 </h1>
 <div class="dashboard">
 
-    <div class="card">
-        <h3>Total</h3>
-        <p>{{ totalVehicles }}</p>
-    </div>
-
+   <a href="{{ path('app_List_Vehicles') }}" class="dashboard-card-link">
+      <div class="card">
+          <h3>Total</h3>
+          <p>{{ totalVehicles }}</p>
+      </div>
+    </a>
+<a href="{{ path('app_List_Vehicles', {'status': 'assigned'}) }}" class="dashboard-card-link">
     <div class="card">
         <h3>Emprunt</h3>
         <p>{{ totalAssigned }}</p>
     </div>
+
+    </a>
+
+    <a href="{{ path('app_List_Vehicles', {'status': 'available'}) }}" class="dashboard-card-link">
     <div class="card">
         <h3>Disponibles</h3>
         <p>{{ available }}</p>
     </div>
+    </a>
 
+    <a href="{{ path('app_List_Drivers') }}" class="dashboard-card-link">
     <div class="card">
         <h3>Chauffeurs</h3>
         <p>{{ totalDrivers }}</p>
     </div>
+    </a>
 
+    <a href="{{ path('app_List_Vehicles', {'status': 'maintenance'}) }}" class="dashboard-card-link">
     <div class="card">
         <h3>Maintenance</h3>
         <p>{{ maintenance }}</p>
     </div>
+    </a>
 
+    <a href="{{ path('app_List_Vehicles', {'status': 'out_of_service'}) }}" class="dashboard-card-link">
     <div class="card">
         <h3>Hors service</h3>
         <p>{{ outOfService }}</p>
     </div>
+    </a>
 
 </div>
 

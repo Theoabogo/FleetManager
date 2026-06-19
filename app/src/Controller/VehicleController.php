@@ -90,10 +90,13 @@ public function index(
 
     #[Route('/vehicles', name: 'app_List_Vehicles')]
 public function list(
+    Request $request,
     VehicleRepository $vehicleRepository,
     DriverRepository $driverRepository,
     EntityManagerInterface $entityManager
 ): Response {
+    $filter = $request->query->get('status');
+
     $vehicles = $vehicleRepository->findAll();
 
     $totalVehicles = $vehicleRepository->count([]);
@@ -108,6 +111,25 @@ public function list(
         ) {
             $available++;
         }
+    }
+
+    if ($filter === 'available') {
+        $vehicles = array_filter($vehicles, function (Vehicle $vehicle) {
+            return $vehicle->getStatus() === Vehicle::STATUS_FREE
+                && !$vehicle->getActiveAssignment();
+        });
+    } elseif ($filter === 'assigned') {
+        $vehicles = array_filter($vehicles, function (Vehicle $vehicle) {
+            return $vehicle->getActiveAssignment() !== null;
+        });
+    } elseif ($filter === 'maintenance') {
+        $vehicles = array_filter($vehicles, function (Vehicle $vehicle) {
+            return $vehicle->getStatus() === Vehicle::STATUS_MAINTENANCE;
+        });
+    } elseif ($filter === 'out_of_service') {
+        $vehicles = array_filter($vehicles, function (Vehicle $vehicle) {
+            return $vehicle->getStatus() === Vehicle::STATUS_OUT_OF_SERVICE;
+        });
     }
 
     $maintenance = $vehicleRepository->count([
@@ -132,6 +154,7 @@ public function list(
         'available' => $available,
         'maintenance' => $maintenance,
         'outOfService' => $outOfService,
+        'filter' => $filter,
     ]);
 }
 
