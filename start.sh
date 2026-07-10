@@ -3,19 +3,18 @@ set -e
 
 chmod -R 777 var/
 
-# Inject Railway environment variables explicitly into PHP-FPM pool config
-{
-  echo ""
-  echo "[www]"
-  echo "env[DATABASE_URL] = ${DATABASE_URL}"
-  echo "env[APP_ENV] = ${APP_ENV:-prod}"
-  echo "env[APP_SECRET] = ${APP_SECRET}"
-  echo "env[MAILER_DSN] = ${MAILER_DSN:-null://null}"
-  echo "env[MESSENGER_TRANSPORT_DSN] = ${MESSENGER_TRANSPORT_DSN:-doctrine://default?auto_setup=0}"
-  echo "env[APP_SHARE_DIR] = ${APP_SHARE_DIR:-var/share}"
-} >> /usr/local/etc/php-fpm.d/www.conf
+# Generate .env.local.php from Railway env vars so Symfony always gets correct values
+php -r '
+$vars = [];
+foreach (["DATABASE_URL","APP_ENV","APP_SECRET","MAILER_DSN","MESSENGER_TRANSPORT_DSN","APP_SHARE_DIR"] as $k) {
+    $v = getenv($k);
+    if ($v !== false && $v !== "") $vars[$k] = $v;
+}
+if (!isset($vars["APP_ENV"])) $vars["APP_ENV"] = "prod";
+file_put_contents(".env.local.php", "<?php return " . var_export($vars, true) . ";");
+'
 
-# Clear stale Symfony cache so config is always rebuilt with current env vars
+# Clear stale Symfony cache
 rm -rf var/cache/prod var/cache/dev
 
 php-fpm -D
