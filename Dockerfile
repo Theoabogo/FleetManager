@@ -21,6 +21,8 @@ RUN sed -i 's/fastcgi_pass php:9000/fastcgi_pass 127.0.0.1:9000/' /etc/nginx/htt
 
 RUN mkdir -p var/cache var/log && chmod -R 777 var/
 
+RUN echo "clear_env = no" >> /usr/local/etc/php-fpm.d/www.conf
+
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
