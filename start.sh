@@ -3,14 +3,11 @@ set -e
 
 chmod -R 777 var/
 
-# Generate .env.local.php from Railway env vars so Symfony always gets correct values
+# Capture all Railway env vars into .env.local.php so Symfony finds every variable it needs
 php -r '
-$vars = [];
-foreach (["DATABASE_URL","APP_ENV","APP_SECRET","MAILER_DSN","MESSENGER_TRANSPORT_DSN","APP_SHARE_DIR"] as $k) {
-    $v = getenv($k);
-    if ($v !== false && $v !== "") $vars[$k] = $v;
-}
-if (!isset($vars["APP_ENV"])) $vars["APP_ENV"] = "prod";
+$vars = getenv();
+if (empty($vars["APP_ENV"])) $vars["APP_ENV"] = "prod";
+if (empty($vars["DEFAULT_URI"])) $vars["DEFAULT_URI"] = "http://localhost";
 file_put_contents(".env.local.php", "<?php return " . var_export($vars, true) . ";");
 '
 
