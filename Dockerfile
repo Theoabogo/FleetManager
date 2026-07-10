@@ -15,7 +15,8 @@ ENV APP_ENV=prod
 ENV APP_SECRET=placeholder
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts \
-    && composer dump-autoload --optimize --no-dev
+    && composer dump-autoload --optimize --no-dev \
+    && php bin/console importmap:install
 
 COPY docker/nginx/nginx.conf /etc/nginx/http.d/default.conf
 RUN sed -i 's/fastcgi_pass php:9000/fastcgi_pass 127.0.0.1:9000/' /etc/nginx/http.d/default.conf
