@@ -53,3 +53,8 @@
 .h1{
     text-align:center;
 }
+
+.card table td,
+.card table th {
+    word-break: break-word;
+}

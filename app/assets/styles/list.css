@@ -8,7 +8,7 @@
 .liste-vehicles {
      display: flex;
     gap: 20px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -21,7 +21,11 @@
     text-align: center;
     box-shadow: 0 4px 5px rgba(0,0,0,0.2);
     transition: 0.3s ease;
-     width: 100%;
+}
+
+.liste-vehicles .card {
+    flex: 1 1 200px;
+    max-width: 250px;
 }
 
 .card:hover {
@@ -41,8 +45,6 @@
 
 
 .table-liste {
-    display: flex;
-    justify-content: center;
     margin-top: 40px;
 }
 
